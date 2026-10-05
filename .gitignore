@@ -11,5 +11,7 @@
 __pycache__/
 backend/data/*.db
 backend/data/*.db-*
+deploy/*.tar.gz
 image.png
 node_modules/
+server.png

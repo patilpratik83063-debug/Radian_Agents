@@ -1,0 +1,16 @@
+.git
+.env
+**/node_modules
+**/.next
+**/.venv
+**/__pycache__
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+screenshots
+*.log
+server.png
+image.png
+engine/screenshots
+engine/assets
+engine/.github

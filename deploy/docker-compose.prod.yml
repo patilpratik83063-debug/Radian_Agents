@@ -1,0 +1,36 @@
+# Production stack. Both images are built beforehand (frontend on a workstation, backend on the host).
+# Everything binds to localhost; nginx exposes it. Hard resource caps protect other apps on the host.
+name: radian
+services:
+  backend:
+    image: radian-backend:prod
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      ENGINE_DIR: /app/engine
+      # behind nginx: trust X-Forwarded-For so the per-client rate limit sees real visitor IPs
+      UVICORN_PROXY_HEADERS: "1"
+      UVICORN_FORWARDED_ALLOW_IPS: "*"
+    ports:
+      - "127.0.0.1:8210:8000"
+    mem_limit: 1536m
+    memswap_limit: 1536m
+    cpus: 2
+    pids_limit: 512
+    shm_size: 512m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+  frontend:
+    image: radian-frontend:prod
+    restart: unless-stopped
+    environment:
+      NODE_OPTIONS: --max-old-space-size=192
+    ports:
+      - "127.0.0.1:3210:3000"
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    pids_limit: 128
