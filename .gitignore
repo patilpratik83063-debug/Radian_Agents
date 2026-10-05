@@ -1,0 +1,15 @@
+*.log
+*.pyc
+*.tsbuildinfo
+.env
+.env.local
+.mypy_cache/
+.next/
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
+backend/data/*.db
+backend/data/*.db-*
+image.png
+node_modules/
